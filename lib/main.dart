@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:web_dashboard_app_tut/screens/dashboard_screen.dart';
+import 'package:visit_amhara_admin_app/screens/dashboard_screen.dart';
+import 'package:visit_amhara_admin_app/utils/themes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: DashboardScreen(),
+      home: const DashboardScreen(),
+      theme: VAAppTheme.lightTheme,
+      darkTheme: VAAppTheme.darkTheme,
+      themeMode: ThemeMode.system,
     );
   }
 }

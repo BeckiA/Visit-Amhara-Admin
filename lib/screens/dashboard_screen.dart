@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -6,6 +7,7 @@ import 'package:visit_amhara_admin_app/screens/settings.dart';
 import 'package:visit_amhara_admin_app/screens/dashboard.dart';
 import 'package:visit_amhara_admin_app/screens/users.dart';
 import '../constants/colors.dart';
+import '../controllers/dashboard_controller.dart';
 import '../widgets/dashboard_body.dart';
 import '../widgets/dashboard_header_widget.dart';
 import '../widgets/dashboard_table.dart';
@@ -21,7 +23,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   //setting the expansion function for the navigation rail
   // bool isExpanded = Get.arguments['isExpanded'];
-  bool isExpanded = false;
+  // bool isExpanded = false;
   var currentIndex = 0;
   final pages = [
     Dashboard(),
@@ -32,6 +34,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DashboardController());
+    final isExpandedController = DashboardController.instance.isExpanded.value;
+
     return Scaffold(
       body: Row(
         children: [
@@ -43,7 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 currentIndex = index;
               });
             },
-            extended: isExpanded,
+            extended: isExpandedController,
             backgroundColor: Colors.deepPurple.shade400,
             unselectedIconTheme:
                 const IconThemeData(color: Colors.white, opacity: 1),

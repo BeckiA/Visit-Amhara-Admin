@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-
+import '../controllers/dashboard_controller.dart';
 import '../widgets/dashboard_body.dart';
 import '../widgets/dashboard_header_widget.dart';
 import '../widgets/dashboard_table.dart';
 
-class Dashboard extends StatefulWidget {
-  @override
-  State<Dashboard> createState() => _DashboardState();
-}
-
-class _DashboardState extends State<Dashboard> {
+class Dashboard extends GetView<DashboardController> {
   // const Test({super.key});
-  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DashboardController());
+    final dashboardController = DashboardController.instance;
     return Padding(
       padding: const EdgeInsets.all(60.0),
       child: SingleChildScrollView(
@@ -28,15 +25,16 @@ class _DashboardState extends State<Dashboard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () {
-                    //let's trigger the navigation expansion
-                    setState(() {
-                      isExpanded = !isExpanded;
-                    });
-                    // Get.toNamed('/', arguments: {'isExpanded': isExpanded});
-                  },
-                  icon: const Icon(Icons.menu),
+                Obx(
+                  () => IconButton(
+                    onPressed: () {
+                      //let's trigger the navigation expansion
+                      dashboardController.toggleExpansion();
+                    },
+                    icon: Icon(dashboardController.isExpanded.value
+                        ? Icons.close
+                        : Icons.menu),
+                  ),
                 ),
                 const CircleAvatar(
                   backgroundImage: NetworkImage(

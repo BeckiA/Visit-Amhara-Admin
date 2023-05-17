@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:visit_amhara_admin_app/screens/settings.dart';
+import 'package:visit_amhara_admin_app/screens/dashboard.dart';
+import 'package:visit_amhara_admin_app/screens/users.dart';
 import '../constants/colors.dart';
 import '../widgets/dashboard_body.dart';
 import '../widgets/dashboard_header_widget.dart';
 import '../widgets/dashboard_table.dart';
+import 'attraction.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -13,7 +20,16 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   //setting the expansion function for the navigation rail
+  // bool isExpanded = Get.arguments['isExpanded'];
   bool isExpanded = false;
+  var currentIndex = 0;
+  final pages = [
+    Dashboard(),
+    const Attraction(),
+    const Users(),
+    const Settings(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,84 +37,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           //Let's start by adding the Navigation Rail
           NavigationRail(
-              extended: isExpanded,
-              backgroundColor: Colors.deepPurple.shade400,
-              unselectedIconTheme:
-                  const IconThemeData(color: Colors.white, opacity: 1),
-              unselectedLabelTextStyle: const TextStyle(
-                color: Colors.white,
-              ),
-              selectedIconTheme: const IconThemeData(color: VAPrimaryColor),
-              selectedLabelTextStyle: const TextStyle(
-                color: VAPrimaryColor,
-              ),
-              destinations: const [
-                NavigationRailDestination(
-                  icon: Icon(Icons.home),
-                  label: Text("Home"),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.bar_chart),
-                  label: Text("Rapports"),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.person),
-                  label: Text("Profile"),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.settings),
-                  label: Text("Settings"),
-                ),
-              ],
-              selectedIndex: 0),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(60.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //let's add the navigation menu for this project
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            //let's trigger the navigation expansion
-                            setState(() {
-                              isExpanded = !isExpanded;
-                            });
-                          },
-                          icon: const Icon(Icons.menu),
-                        ),
-                        const CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              "https://faces-img.xcdn.link/image-lorem-face-3430.jpg"),
-                          radius: 26.0,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    //Now let's start with the dashboard main rapports
-                    const DashboardHeader(),
-                    //Now let's set the article section
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    const DashboardBody(),
-                    const SizedBox(
-                      height: 40.0,
-                    ),
-                    //Now let's add the Table
-                    const DashboardTable()
-                  ],
-                ),
-              ),
+            selectedIndex: currentIndex,
+            onDestinationSelected: (int index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            extended: isExpanded,
+            backgroundColor: Colors.deepPurple.shade400,
+            unselectedIconTheme:
+                const IconThemeData(color: Colors.white, opacity: 1),
+            unselectedLabelTextStyle: const TextStyle(
+              color: Colors.white,
             ),
+            selectedIconTheme: const IconThemeData(color: VAPrimaryColor),
+            selectedLabelTextStyle: const TextStyle(
+              color: VAPrimaryColor,
+            ),
+            destinations: const [
+              NavigationRailDestination(
+                icon: Icon(LineAwesomeIcons.home),
+                label: Text("Home"),
+              ),
+              NavigationRailDestination(
+                icon: Icon(LineAwesomeIcons.globe_with_africa_shown),
+                label: Text("Attractions"),
+              ),
+              NavigationRailDestination(
+                icon: Icon(LineAwesomeIcons.users),
+                label: Text("Profile"),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.settings),
+                label: Text("Settings"),
+              ),
+            ],
           ),
+          Expanded(
+              child: IndexedStack(
+            index: currentIndex,
+            children: pages,
+          )),
         ],
       ),
       //let's add the floating action button

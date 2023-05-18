@@ -11,7 +11,7 @@ import '../controllers/dashboard_controller.dart';
 import '../widgets/dashboard_body.dart';
 import '../widgets/dashboard_header_widget.dart';
 import '../widgets/dashboard_table.dart';
-import 'attraction.dart';
+import 'attraction_display.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var currentIndex = 0;
   final pages = [
     Dashboard(),
-    const Attraction(),
+    const AttractionDisplay(),
     const Users(),
     const Settings(),
   ];

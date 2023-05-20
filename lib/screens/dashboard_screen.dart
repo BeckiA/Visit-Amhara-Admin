@@ -29,7 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Dashboard(),
     const AttractionDisplay(),
     const Users(),
-    const Settings(),
+    const SettingsScreen(),
   ];
 
   @override

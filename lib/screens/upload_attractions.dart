@@ -1,9 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,22 +41,47 @@ class UploadAttractions extends StatefulWidget {
 
 class _UploadAttractionsState extends State<UploadAttractions> {
   // Image picker variable declaration
-  late XFile pickedImage;
+  String pickedImagePath = '';
   String selectedImage = '';
   late String selectedImagePath;
+  File? imageFile;
+  CroppedFile? croppedImage;
+  late String croppedImagePath;
+  Uint8List? idInByte;
 
 // Image Picker Function Logic
   pickImage() async {
-    pickedImage = (await ImagePicker().pickImage(source: ImageSource.gallery))!;
-    if (pickedImage != null) {
-      setState(() {
-        selectedImage = pickedImage.name;
-        selectedImagePath = pickedImage.path;
+    FilePickerResult? fileResult;
+    fileResult = await FilePicker.platform.pickFiles();
+    if (fileResult != null) {
+      idInByte = fileResult.files.single.bytes;
+      selectedImage = fileResult.files.first.name;
+      // setState(() {
+      //   print(pickedImagePath);
+      // });
+      Reference reference = FirebaseStorage.instance
+          .ref()
+          .child('attractions')
+          .child('/ $selectedImage');
+      final UploadTask uploadTask = reference.putData(
+          idInByte!, SettableMetadata(contentType: 'image/png'));
+      await uploadTask.whenComplete(() async {
+        String image = await uploadTask.snapshot.ref.getDownloadURL();
+        setState(() {
+          selectedImagePath = image;
+          print(selectedImagePath);
+        });
       });
     }
+    setState(() {
+      pickedImagePath =
+          pickedImagePath = fileResult!.files.single.path as String;
+    });
+    print('The Selected Image Path $selectedImagePath');
   }
 
   final _formKey = GlobalKey<FormState>();
+  final _attractionIdController = TextEditingController();
   final _titleController = TextEditingController();
   final _locationController = TextEditingController();
   final _categoryIdController = TextEditingController();
@@ -63,19 +92,13 @@ class _UploadAttractionsState extends State<UploadAttractions> {
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Uploading the Image file into Firebase Storage
-      firebase_storage.UploadTask uploadTask;
-      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('attraction')
-          .child('/' + pickedImage.name);
-      uploadTask = ref.putFile(File(pickedImage.path));
-      await uploadTask.whenComplete(() => null);
-      String imageUrl = await ref.getDownloadURL();
-      print("Uploaded Image Url $imageUrl");
+
+      String imageUrl = selectedImagePath;
+      print("Uploaded Image Url $selectedImagePath");
 
       // Getting started with the firestore database
       final FirebaseFirestore firestore = FirebaseFirestore.instance;
-      final String id = DateTime.now().toString();
+      final String id = _attractionIdController.text;
       final String title = _titleController.text;
       final String location = _locationController.text;
       final String categoryId = _categoryIdController.text;
@@ -98,6 +121,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
       await addAttraction(categoryId, newAttraction);
 
       // Clear form fields
+      _attractionIdController.clear();
       _titleController.clear();
       _locationController.clear();
       _categoryIdController.clear();
@@ -112,8 +136,8 @@ class _UploadAttractionsState extends State<UploadAttractions> {
 
   Future<void> addAttraction(String categoryId, Attraction attraction) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final CollectionReference attractionsCollection =
-        firestore.collection('attractions_$categoryId');
+    final DocumentReference<Map<String, dynamic>> attractionsCollection =
+        firestore.collection('Attractions').doc();
 
     final Map<String, dynamic> attractionData = {
       'id': attraction.id,
@@ -126,13 +150,14 @@ class _UploadAttractionsState extends State<UploadAttractions> {
       'longitude': attraction.longitude,
     };
 
-    await attractionsCollection.doc(attraction.id).set(attractionData);
+    await attractionsCollection.set(attractionData);
 
     print('Attraction data uploaded to Firestore.');
   }
 
   @override
   void dispose() {
+    _attractionIdController.dispose();
     _titleController.dispose();
     _locationController.dispose();
     _categoryIdController.dispose();
@@ -160,6 +185,17 @@ class _UploadAttractionsState extends State<UploadAttractions> {
           key: _formKey,
           child: ListView(
             children: <Widget>[
+              TextFormField(
+                controller: _attractionIdController,
+                decoration: const InputDecoration(labelText: 'Attraction ID'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please provide an attraction id.';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 5),
               TextFormField(
                 controller: _titleController,
                 decoration: const InputDecoration(labelText: 'Title'),
@@ -226,7 +262,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                       ),
                       child: selectedImage.isNotEmpty
                           ? Image.network(
-                              selectedImagePath,
+                              pickedImagePath,
                               fit: BoxFit.cover,
                             )
                           : Image.asset(

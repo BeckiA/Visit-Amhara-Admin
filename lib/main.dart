@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:visit_amhara_admin_app/screens/upload_attractions.dart';
@@ -11,13 +14,14 @@ import 'package:visit_amhara_admin_app/screens/users.dart';
 import 'package:visit_amhara_admin_app/utils/themes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -42,7 +46,10 @@ class MyApp extends StatelessWidget {
           name: '/upload-attractions',
           page: () => UploadAttractions(),
         ),
-        GetPage(name: '/settings', page: () => const Settings()),
+        GetPage(
+          name: '/settings',
+          page: () => const SettingsScreen(),
+        ),
       ],
     );
   }

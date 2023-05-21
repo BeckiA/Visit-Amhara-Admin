@@ -121,29 +121,50 @@ class AttractionList extends GetxController {
     throw Exception('Attraction not found for id: $id');
   }
 
-  void uploadAttractionData() async {
+  Future<void> addAttraction(String categoryId, Attraction attraction) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final DocumentReference<Map<String, dynamic>> attractionsCollection =
+        firestore.collection('Attractions').doc();
 
-    for (List<Attraction> attractionGroup in _attractionList) {
-      final String categoryId = attractionGroup.first.categoryId;
-      final CollectionReference attractionsCollection =
-          firestore.collection('attractions_$categoryId');
+    final Map<String, dynamic> attractionData = {
+      'id': attraction.id,
+      'title': attraction.title,
+      'location': attraction.location,
+      'picture': attraction.picture,
+      'description': attraction.description,
+      'categoryId': attraction.categoryId,
+      'latitude': attraction.latitude,
+      'longitude': attraction.longitude,
+    };
 
-      for (Attraction attraction in attractionGroup) {
-        final Map<String, dynamic> attractionData = {
-          'id': attraction.id,
-          'title': attraction.title,
-          'location': attraction.location,
-          'picture': attraction.picture,
-          'description': attraction.description,
-          'categoryId': attraction.categoryId,
-          'latitude': attraction.latitude,
-          'longitude': attraction.longitude,
-        };
+    await attractionsCollection.set(attractionData);
 
-        await attractionsCollection.doc(attraction.id).set(attractionData);
-      }
+    print('Attraction data uploaded to Firestore.');
+  }
+
+  Future<void> fetchAndSetAttraction(Attraction attraction) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final DocumentReference<Map<String, dynamic>> attractionsCollection =
+        firestore.collection('Attractions').doc();
+
+   
+// Get the document snapshot
+DocumentSnapshot documentSnapshot = await attractionsCollection.get();
+    Object data = documentSnapshot.data() as Object;
+
+      final Map<String, dynamic> attractionData = {
+      'id': data['id'],
+      'title': attraction.title,
+      'location': attraction.location,
+      'picture': attraction.picture,
+      'description': attraction.description,
+      'categoryId': attraction.categoryId,
+      'latitude': attraction.latitude,
+      'longitude': attraction.longitude,
+    };
     }
+
+    await attractionsCollection.set(attractionData);
 
     print('Attraction data uploaded to Firestore.');
   }

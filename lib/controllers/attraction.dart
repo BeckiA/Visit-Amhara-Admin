@@ -10,8 +10,8 @@ class Attraction with ChangeNotifier {
   final String picture;
   final String description;
   final String categoryId;
-  final double latitude;
-  final double longitude;
+  final String latitude;
+  final String longitude;
   bool isFavorite;
 
   Attraction({

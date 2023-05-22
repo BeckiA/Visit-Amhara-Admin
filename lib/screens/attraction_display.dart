@@ -16,7 +16,7 @@ class AttractionDisplay extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Get.to(UploadAttractions());
+            Get.off(UploadAttractions());
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

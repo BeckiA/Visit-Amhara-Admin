@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:visit_amhara_admin_app/controllers/atrractions_list.dart';
+import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
 
 import '../controllers/attraction.dart';
 
@@ -21,14 +22,12 @@ class UploadAttractions extends StatefulWidget {
 }
 
 class _UploadAttractionsState extends State<UploadAttractions> {
+  final _attractionQuery = Get.put(AttractionQuery());
+
   // Image picker variable declaration
-  final _attractionList = Get.put(AttractionList());
   String selectedImage = '';
   late String selectedImagePath;
-  late String cleanedUrl;
   File? imageFile;
-  CroppedFile? croppedImage;
-  late String croppedImagePath;
   Uint8List? idInByte;
 
 // Image Picker Function Logic
@@ -47,18 +46,8 @@ class _UploadAttractionsState extends State<UploadAttractions> {
           idInByte!, SettableMetadata(contentType: 'image/png'));
       await uploadTask.whenComplete(() async {
         String image = await uploadTask.snapshot.ref.getDownloadURL();
-        String imageUrl = image;
-        Uri uri = Uri.parse(imageUrl);
-        uri = uri.replace(queryParameters: {});
-        String modifiedUrl = uri.toString();
-        // String imageUrl = selectedImagePath;
-        int questionMarkIndex = modifiedUrl.indexOf('?');
-        if (questionMarkIndex != -1) {
-          cleanedUrl = modifiedUrl.substring(0, questionMarkIndex);
-        }
-
         setState(() {
-          selectedImagePath = cleanedUrl;
+          selectedImagePath = image;
         });
       });
     }
@@ -90,8 +79,8 @@ class _UploadAttractionsState extends State<UploadAttractions> {
       final String categoryId = _categoryIdController.text;
       final String description = _descriptionController.text;
       final String picture = imageUrl;
-      final String latitude = _latitudeController.text;
-      final String longitude = _longitudeController.text;
+      final double latitude = double.parse(_latitudeController.text);
+      final double longitude = double.parse(_longitudeController.text);
 
       final Attraction newAttraction = Attraction(
         id: id,
@@ -104,7 +93,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
         longitude: longitude,
       );
 
-      await AttractionList.instance.addAttraction(categoryId, newAttraction);
+      await AttractionQuery.instance.createAttraction(newAttraction);
 
       // Clear form fields
       _attractionIdController.clear();
@@ -136,6 +125,10 @@ class _UploadAttractionsState extends State<UploadAttractions> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(LineAwesomeIcons.arrow_left),
+          onPressed: () => Get.back(),
+        ),
         title: const Text('Edit Attraction Sites'),
         actions: <Widget>[
           IconButton(

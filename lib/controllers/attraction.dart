@@ -10,8 +10,8 @@ class Attraction with ChangeNotifier {
   final String picture;
   final String description;
   final String categoryId;
-  final String latitude;
-  final String longitude;
+  final double latitude;
+  final double longitude;
   bool isFavorite;
 
   Attraction({
@@ -25,6 +25,19 @@ class Attraction with ChangeNotifier {
     required this.longitude,
     this.isFavorite = false,
   });
+
+  toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'location': location,
+      'picture': picture,
+      'description': description,
+      'categoryId': categoryId,
+      'latitude': latitude,
+      'longitiude': longitude,
+    };
+  }
 
   Future<void> _saveFavoriteStatus() async {
     final box = GetStorage();

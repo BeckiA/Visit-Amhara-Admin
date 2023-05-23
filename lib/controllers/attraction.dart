@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +12,7 @@ class Attraction with ChangeNotifier {
   final String description;
   final String categoryId;
   final double latitude;
-  final double longitude;
+  final double longitiude;
   bool isFavorite;
 
   Attraction({
@@ -22,7 +23,7 @@ class Attraction with ChangeNotifier {
     required this.description,
     required this.categoryId,
     required this.latitude,
-    required this.longitude,
+    required this.longitiude,
     this.isFavorite = false,
   });
 
@@ -35,7 +36,7 @@ class Attraction with ChangeNotifier {
       'description': description,
       'categoryId': categoryId,
       'latitude': latitude,
-      'longitiude': longitude,
+      'longitiude': longitiude,
     };
   }
 
@@ -54,5 +55,19 @@ class Attraction with ChangeNotifier {
     isFavorite = !isFavorite;
     await _saveFavoriteStatus();
     notifyListeners();
+  }
+
+  factory Attraction.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data();
+    return Attraction(
+        id: data!['id'],
+        title: data['title'],
+        location: data['location'],
+        picture: data['picture'],
+        description: data['description'],
+        categoryId: data['categoryId'],
+        latitude: data['latitude'],
+        longitiude: data['longitiude']);
   }
 }

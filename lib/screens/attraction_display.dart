@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:visit_amhara_admin_app/constants/colors.dart';
 import 'package:visit_amhara_admin_app/screens/upload_attractions.dart';
+import 'package:visit_amhara_admin_app/screens/view_attractions.dart';
 
 class AttractionDisplay extends StatelessWidget {
   const AttractionDisplay({super.key});
@@ -43,7 +44,9 @@ class AttractionDisplay extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.to(ViewAttraction());
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

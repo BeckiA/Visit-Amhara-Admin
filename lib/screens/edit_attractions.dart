@@ -24,7 +24,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
   final editController = Get.put(EditAttractionController());
   // Image picker variable declaration
   String selectedImage = '';
-  String selectedImagePath = '';
+  late String selectedImagePath;
   File? imageFile;
   Uint8List? idInByte;
   bool isFetched = false;
@@ -122,29 +122,37 @@ class _UploadAttractionsState extends State<UploadAttractions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(LineAwesomeIcons.arrow_left),
-            onPressed: () => Get.back(),
-          ),
-          title: const Text('Edit Attraction Sites'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: _submitForm,
-            ),
-          ],
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(LineAwesomeIcons.arrow_left),
+          onPressed: () => Get.back(),
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
+        title: const Text('Edit Attraction Sites'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: _submitForm,
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: FutureBuilder(
+          future: editController.getAttractionData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                isFetched = true;
+                Attraction attractionData = snapshot.data as Attraction;
+                return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Form(
-                        key: _formKey,
-                        child: Column(children: [
+                      key: _formKey,
+                      child: ListView(
+                        children: <Widget>[
                           TextFormField(
+                            initialValue: attractionData.id,
                             controller: _attractionIdController,
                             decoration: const InputDecoration(
                                 labelText: 'Attraction ID'),
@@ -157,6 +165,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                           ),
                           const SizedBox(height: 5),
                           TextFormField(
+                            initialValue: attractionData.title,
                             controller: _titleController,
                             decoration:
                                 const InputDecoration(labelText: 'Title'),
@@ -169,6 +178,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                           ),
                           const SizedBox(height: 5),
                           TextFormField(
+                            initialValue: attractionData.location,
                             controller: _locationController,
                             decoration:
                                 const InputDecoration(labelText: 'Location'),
@@ -181,6 +191,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                           ),
                           const SizedBox(height: 5),
                           TextFormField(
+                            initialValue: attractionData.categoryId,
                             controller: _categoryIdController,
                             decoration:
                                 const InputDecoration(labelText: 'Category ID'),
@@ -193,6 +204,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                           ),
                           const SizedBox(height: 5),
                           TextFormField(
+                            initialValue: attractionData.description,
                             controller: _descriptionController,
                             decoration:
                                 const InputDecoration(labelText: 'Description'),
@@ -254,6 +266,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                           ),
                           const SizedBox(height: 5),
                           TextFormField(
+                            initialValue: attractionData.latitude as String,
                             controller: _latitudeController,
                             decoration:
                                 const InputDecoration(labelText: 'Latitude'),
@@ -273,6 +286,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                           ),
                           const SizedBox(height: 5),
                           TextFormField(
+                            initialValue: attractionData.longitiude as String,
                             controller: _longitudeController,
                             decoration:
                                 const InputDecoration(labelText: 'Longitude'),
@@ -290,8 +304,28 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                               return null;
                             },
                           ),
-                        ]))
-                  ]),
-            )));
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(snapshot.error.toString()),
+                );
+              } else {
+                return const Center(
+                  child: Text('Something went wrong'),
+                );
+              }
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 }

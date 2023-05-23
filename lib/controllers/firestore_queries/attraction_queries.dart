@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,5 +26,29 @@ class AttractionQuery extends GetxController {
           colorText: Colors.red);
       print(error.toString());
     });
+  }
+
+  Future<Attraction> getAttraction(String attractionId) async {
+    final snapshot = await _db
+        .collection("Attractions")
+        .where("id", isEqualTo: attractionId)
+        .get();
+    if (snapshot.docs.isEmpty) {
+      print(Exception(
+          "No attraction found with this attraction id $attractionId"));
+    }
+    if (snapshot.docs.length > 1) {
+      print(throw Exception(
+          "Multiple attractions found with this attraction id $attractionId"));
+    }
+    final attractData = Attraction.fromSnapshot(snapshot.docs.single);
+    return attractData;
+  }
+
+  Future<List<Attraction>> allAttractionData() async {
+    final snapshot = await _db.collection("Attractions").get();
+    final attractionData =
+        snapshot.docs.map((e) => Attraction.fromSnapshot((e))).toList();
+    return attractionData;
   }
 }

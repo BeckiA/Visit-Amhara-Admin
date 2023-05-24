@@ -10,9 +10,11 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:visit_amhara_admin_app/controllers/atrractions_list.dart';
 import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
+import 'package:visit_amhara_admin_app/screens/view_attractions.dart';
 
 import '../controllers/attraction.dart';
 import '../controllers/edit_attraction_controllers.dart';
+import 'attraction_display.dart';
 
 class UploadAttractions extends StatefulWidget {
   @override
@@ -24,7 +26,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
   final editController = Get.put(EditAttractionController());
   // Image picker variable declaration
   String selectedImage = '';
-  String selectedImagePath = '';
+  late String selectedImagePath;
   File? imageFile;
   Uint8List? idInByte;
   bool isFetched = false;
@@ -104,6 +106,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
 
       // Show success message or navigate to another screen
       // ...
+      Get.to(ViewAttraction());
     }
   }
 
@@ -123,11 +126,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(LineAwesomeIcons.arrow_left),
-            onPressed: () => Get.back(),
-          ),
-          title: const Text('Edit Attraction Sites'),
+          title: const Text('Upload Attraction Sites'),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.save),
@@ -290,6 +289,15 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                               return null;
                             },
                           ),
+                          const SizedBox(height: 10),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                                child: const Text("UPLOAD ATTRACTION"),
+                                onPressed: () {
+                                  _submitForm();
+                                }),
+                          )
                         ]))
                   ]),
             )));

@@ -9,8 +9,15 @@ import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_
 import '../constants/colors.dart';
 import '../controllers/edit_attraction_controllers.dart';
 
-class ViewAttraction extends StatelessWidget {
+class ViewAttraction extends StatefulWidget {
+  @override
+  State<ViewAttraction> createState() => _ViewAttractionState();
+}
+
+class _ViewAttractionState extends State<ViewAttraction> {
   final AttractionQuery attractionQuery = Get.put(AttractionQuery());
+
+  final controller = Get.put(EditAttractionController());
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +179,11 @@ class ViewAttraction extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                controller.deleteRecord(attraction);
+                              });
+                            },
                             icon: const Icon(
                               LineAwesomeIcons.trash,
                               size: 35,

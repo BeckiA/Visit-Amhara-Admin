@@ -17,4 +17,8 @@ class EditAttractionController extends GetxController {
   updateRecord(Attraction attraction) async {
     await _attractQuery.updateAttractionRecord(attraction);
   }
+
+  deleteRecord(Attraction attraction) async {
+    await _attractQuery.deleteAttractionRecord(attraction);
+  }
 }

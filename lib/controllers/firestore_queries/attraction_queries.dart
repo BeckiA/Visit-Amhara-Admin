@@ -75,4 +75,27 @@ class AttractionQuery extends GetxController {
       print(error.toString());
     });
   }
+
+  Future<void> deleteAttractionRecord(Attraction attraction) async {
+    var querySnapshot = await _db
+        .collection("Attractions")
+        .where("id", isEqualTo: attraction.id)
+        .get();
+    var documentSnapshot = querySnapshot.docs.first;
+    await documentSnapshot.reference
+        .delete()
+        .whenComplete(
+          () => Get.snackbar("Success", "Attraction site deleted successfully",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.green.withOpacity(0.1),
+              colorText: Colors.green),
+        )
+        .catchError((error, StackTrace) {
+      Get.snackbar("Error", "Something went wrong. Try again",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.redAccent.withOpacity(0.1),
+          colorText: Colors.red);
+      print(error.toString());
+    });
+  }
 }

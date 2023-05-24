@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
 class Attraction with ChangeNotifier {
+  // String docId;
   final String id;
   final String title;
   final String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -25,6 +26,7 @@ class Attraction with ChangeNotifier {
     required this.latitude,
     required this.longitiude,
     this.isFavorite = false,
+    // this.docId = 'null',
   });
 
   toJson() {
@@ -61,6 +63,7 @@ class Attraction with ChangeNotifier {
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data();
     return Attraction(
+        // docId: document.id,
         id: data!['id'],
         title: data['title'],
         location: data['location'],

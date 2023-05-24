@@ -10,6 +10,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:visit_amhara_admin_app/controllers/atrractions_list.dart';
 import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
+import 'package:visit_amhara_admin_app/screens/view_attractions.dart';
 
 import '../controllers/attraction.dart';
 import '../controllers/edit_attraction_controllers.dart';
@@ -24,10 +25,12 @@ class _EditAttractionsState extends State<EditAttractions> {
   final editController = Get.put(EditAttractionController());
   // Image picker variable declaration
   String selectedImage = '';
-  late String selectedImagePath;
+  String selectedImagePath = '';
   File? imageFile;
   Uint8List? idInByte;
   bool isFetched = false;
+  bool isImageSelected = false; // Flag to check if an image is selected
+
 // Image Picker Function Logic
   pickImage() async {
     FilePickerResult? fileResult;
@@ -46,77 +49,11 @@ class _EditAttractionsState extends State<EditAttractions> {
         String image = await uploadTask.snapshot.ref.getDownloadURL();
         setState(() {
           selectedImagePath = image;
+          isImageSelected =
+              true; // Set the flag to indicate an image is selected
         });
       });
     }
-
-    print('The Selected Image Path $selectedImagePath');
-  }
-
-  final _formKey = GlobalKey<FormState>();
-  final _attractionIdController = TextEditingController();
-  final _titleController = TextEditingController();
-  final _locationController = TextEditingController();
-  final _categoryIdController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _latitudeController = TextEditingController();
-  final _longitudeController = TextEditingController();
-
-  // void _submitForm() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Uploading the Image file into Firebase Storage
-
-  //     String imageUrl = selectedImagePath;
-  //     print("Uploaded Image Url $selectedImagePath");
-
-  // Getting started with the firestore database
-  //     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //     final String id = _attractionIdController.text;
-  //     final String title = _titleController.text;
-  //     final String location = _locationController.text;
-  //     final String categoryId = _categoryIdController.text;
-  //     final String description = _descriptionController.text;
-  //     final String picture = imageUrl;
-  //     final double latitude = double.parse(_latitudeController.text);
-  //     final double longitiude = double.parse(_longitudeController.text);
-
-  //     final Attraction newAttraction = Attraction(
-  //       id: id,
-  //       title: title,
-  //       location: location,
-  //       categoryId: categoryId,
-  //       description: description,
-  //       picture: picture,
-  //       latitude: latitude,
-  //       longitiude: longitiude,
-  //     );
-
-  //     await AttractionQuery.instance.createAttraction(newAttraction);
-
-  //     // Clear form fields
-  //     _attractionIdController.clear();
-  //     _titleController.clear();
-  //     _locationController.clear();
-  //     _categoryIdController.clear();
-  //     _descriptionController.clear();
-  //     _latitudeController.clear();
-  //     _longitudeController.clear();
-
-  //     // Show success message or navigate to another screen
-  //     // ...
-  //   }
-  // }
-
-  @override
-  void dispose() {
-    _attractionIdController.dispose();
-    _titleController.dispose();
-    _locationController.dispose();
-    _categoryIdController.dispose();
-    _descriptionController.dispose();
-    _latitudeController.dispose();
-    _longitudeController.dispose();
-    super.dispose();
   }
 
   @override
@@ -131,12 +68,6 @@ class _EditAttractionsState extends State<EditAttractions> {
           onPressed: () => Get.back(),
         ),
         title: const Text('Edit Attraction Sites'),
-        actions: <Widget>[
-          // IconButton(
-          //   icon: const Icon(Icons.save),
-          //   // onPressed: _submitForm,
-          // ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -148,6 +79,33 @@ class _EditAttractionsState extends State<EditAttractions> {
                 if (snapshot.hasData) {
                   isFetched = true;
                   Attraction attractionData = snapshot.data as Attraction;
+                  final _formKey = GlobalKey<FormState>();
+                  final _attractionIdController =
+                      TextEditingController(text: attractionData.id);
+                  final _titleController =
+                      TextEditingController(text: attractionData.title);
+                  final _locationController =
+                      TextEditingController(text: attractionData.location);
+                  final _categoryIdController =
+                      TextEditingController(text: attractionData.categoryId);
+                  final _descriptionController =
+                      TextEditingController(text: attractionData.description);
+                  final _latitudeController = TextEditingController(
+                      text: attractionData.latitude.toString());
+                  final _longitudeController = TextEditingController(
+                      text: attractionData.longitiude.toString());
+                  @override
+                  void dispose() {
+                    _attractionIdController.dispose();
+                    _titleController.dispose();
+                    _locationController.dispose();
+                    _categoryIdController.dispose();
+                    _descriptionController.dispose();
+                    _latitudeController.dispose();
+                    _longitudeController.dispose();
+                    super.dispose();
+                  }
+
                   return SizedBox(
                     height: MediaQuery.of(context).size.height,
                     child: Column(
@@ -159,8 +117,8 @@ class _EditAttractionsState extends State<EditAttractions> {
                             child: ListView(
                               children: <Widget>[
                                 TextFormField(
-                                  initialValue: attractionData.id,
-                                  // controller: _attractionIdController,
+                                  // initialValue: attractionData.id,
+                                  controller: _attractionIdController,
                                   decoration: const InputDecoration(
                                       labelText: 'Attraction ID'),
                                   validator: (value) {
@@ -172,8 +130,8 @@ class _EditAttractionsState extends State<EditAttractions> {
                                 ),
                                 const SizedBox(height: 5),
                                 TextFormField(
-                                  initialValue: attractionData.title,
-                                  // controller: _titleController,
+                                  // initialValue: attractionData.title,
+                                  controller: _titleController,
                                   decoration:
                                       const InputDecoration(labelText: 'Title'),
                                   validator: (value) {
@@ -185,8 +143,8 @@ class _EditAttractionsState extends State<EditAttractions> {
                                 ),
                                 const SizedBox(height: 5),
                                 TextFormField(
-                                  initialValue: attractionData.location,
-                                  // controller: _locationController,
+                                  // initialValue: attractionData.location,
+                                  controller: _locationController,
                                   decoration: const InputDecoration(
                                       labelText: 'Location'),
                                   validator: (value) {
@@ -198,8 +156,8 @@ class _EditAttractionsState extends State<EditAttractions> {
                                 ),
                                 const SizedBox(height: 5),
                                 TextFormField(
-                                  initialValue: attractionData.categoryId,
-                                  // controller: _categoryIdController,
+                                  // initialValue: attractionData.categoryId,
+                                  controller: _categoryIdController,
                                   decoration: const InputDecoration(
                                       labelText: 'Category ID'),
                                   validator: (value) {
@@ -211,8 +169,8 @@ class _EditAttractionsState extends State<EditAttractions> {
                                 ),
                                 const SizedBox(height: 5),
                                 TextFormField(
-                                  initialValue: attractionData.description,
-                                  // controller: _descriptionController,
+                                  // initialValue: attractionData.description,
+                                  controller: _descriptionController,
                                   decoration: const InputDecoration(
                                       labelText: 'Description'),
                                   maxLines: 5,
@@ -231,30 +189,33 @@ class _EditAttractionsState extends State<EditAttractions> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Container(
-                                        width: 100,
-                                        height: 100,
-                                        margin: const EdgeInsets.only(
-                                          top: 8,
-                                          right: 10,
+                                      width: 100,
+                                      height: 100,
+                                      margin: const EdgeInsets.only(
+                                        top: 8,
+                                        right: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Colors.grey,
                                         ),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 1,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        child: isFetched
-                                            ? Image.network(
-                                                attractionData.picture)
-                                            : selectedImage.isNotEmpty
-                                                ? Image.network(
-                                                    selectedImagePath,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : Image.asset(
-                                                    "lib/assets/images/no_image.jpg",
-                                                    fit: BoxFit.cover,
-                                                  )),
+                                      ),
+                                      child: isImageSelected
+                                          ? Image.network(
+                                              selectedImagePath,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : (isFetched
+                                              ? Image.network(
+                                                  attractionData.picture,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.asset(
+                                                  "lib/assets/images/no_image.jpg",
+                                                  fit: BoxFit.cover,
+                                                )),
+                                    ),
                                     Expanded(
                                       child: Container(
                                         width: 50,
@@ -274,9 +235,9 @@ class _EditAttractionsState extends State<EditAttractions> {
                                 ),
                                 const SizedBox(height: 5),
                                 TextFormField(
-                                  initialValue:
-                                      attractionData.latitude.toString(),
-                                  // controller: _latitudeController,
+                                  // initialValue:
+                                  //     attractionData.latitude.toString(),
+                                  controller: _latitudeController,
                                   decoration: const InputDecoration(
                                       labelText: 'Latitude'),
                                   keyboardType: TextInputType.number,
@@ -295,9 +256,9 @@ class _EditAttractionsState extends State<EditAttractions> {
                                 ),
                                 const SizedBox(height: 5),
                                 TextFormField(
-                                  initialValue:
-                                      attractionData.longitiude.toString(),
-                                  // controller: _longitudeController,
+                                  // initialValue:
+                                  //     attractionData.longitiude.toString(),
+                                  controller: _longitudeController,
                                   decoration: const InputDecoration(
                                       labelText: 'Longitude'),
                                   keyboardType: TextInputType.number,
@@ -313,7 +274,63 @@ class _EditAttractionsState extends State<EditAttractions> {
                                     }
                                     return null;
                                   },
-                                )
+                                ),
+                                ElevatedButton(
+                                    child: const Text("Update Attraction"),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        // Uploading the Image file into Firebase Storage
+
+                                        print(
+                                            "Uploaded Image Url $selectedImagePath");
+
+                                        // Getting started with the firestore database
+                                        final FirebaseFirestore firestore =
+                                            FirebaseFirestore.instance;
+                                        final String id =
+                                            _attractionIdController.text;
+                                        final String title =
+                                            _titleController.text;
+                                        final String location =
+                                            _locationController.text;
+                                        final String categoryId =
+                                            _categoryIdController.text;
+                                        final String description =
+                                            _descriptionController.text;
+                                        final String picture = selectedImage;
+                                        final double latitude = double.parse(
+                                            _latitudeController.text);
+                                        final double longitiude = double.parse(
+                                            _longitudeController.text);
+
+                                        final Attraction updatedAttraction =
+                                            Attraction(
+                                          id: id,
+                                          title: title,
+                                          location: location,
+                                          categoryId: categoryId,
+                                          description: description,
+                                          picture: picture,
+                                          latitude: latitude,
+                                          longitiude: longitiude,
+                                        );
+
+                                        await AttractionQuery.instance
+                                            .updateAttractionRecord(
+                                                updatedAttraction);
+
+                                        // Clear form fields
+                                        _attractionIdController.clear();
+                                        _titleController.clear();
+                                        _locationController.clear();
+                                        _categoryIdController.clear();
+                                        _descriptionController.clear();
+                                        _latitudeController.clear();
+                                        _longitudeController.clear();
+
+                                        Get.to(ViewAttraction());
+                                      }
+                                    }),
                               ],
                             ),
                           ),

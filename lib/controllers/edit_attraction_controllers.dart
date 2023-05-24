@@ -13,4 +13,8 @@ class EditAttractionController extends GetxController {
   Future<List<Attraction>> getAllAttractions() async {
     return await _attractQuery.allAttractionData();
   }
+
+  updateRecord(Attraction attraction) async {
+    await _attractQuery.updateAttractionRecord(attraction);
+  }
 }

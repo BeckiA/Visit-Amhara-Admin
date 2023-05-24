@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:visit_amhara_admin_app/screens/edit_attractions.dart';
 import 'package:visit_amhara_admin_app/screens/upload_attractions.dart';
 import 'firebase_options.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -41,6 +42,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/users',
           page: () => const Users(),
+        ),
+        GetPage(
+          name: '/edit-attraction',
+          page: () => EditAttractions(),
         ),
         GetPage(
           name: '/upload-attractions',

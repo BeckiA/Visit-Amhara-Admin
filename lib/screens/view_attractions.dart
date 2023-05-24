@@ -162,7 +162,10 @@ class ViewAttraction extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed('/edit-attraction',
+                                arguments: {"id": attraction.id});
+                          },
                           icon: const Icon(
                             LineAwesomeIcons.edit,
                             size: 35,

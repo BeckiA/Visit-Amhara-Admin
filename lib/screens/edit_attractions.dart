@@ -61,6 +61,7 @@ class _EditAttractionsState extends State<EditAttractions> {
     final args = Get.arguments;
     final id = args['id'] as String;
     print(id);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -79,6 +80,8 @@ class _EditAttractionsState extends State<EditAttractions> {
                 if (snapshot.hasData) {
                   isFetched = true;
                   Attraction attractionData = snapshot.data as Attraction;
+                  print(attractionData.categoryId);
+                  print(attractionData.picture.isURL);
                   final _formKey = GlobalKey<FormState>();
                   final _attractionIdController =
                       TextEditingController(text: attractionData.id);
@@ -280,7 +283,9 @@ class _EditAttractionsState extends State<EditAttractions> {
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         // Uploading the Image file into Firebase Storage
-
+                                        String imageInstance = isImageSelected
+                                            ? selectedImagePath
+                                            : attractionData.picture;
                                         print(
                                             "Uploaded Image Url $selectedImagePath");
 
@@ -297,7 +302,7 @@ class _EditAttractionsState extends State<EditAttractions> {
                                             _categoryIdController.text;
                                         final String description =
                                             _descriptionController.text;
-                                        final String picture = selectedImage;
+                                        final String picture = imageInstance;
                                         final double latitude = double.parse(
                                             _latitudeController.text);
                                         final double longitiude = double.parse(

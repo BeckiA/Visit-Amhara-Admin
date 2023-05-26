@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../constants/image_strings.dart';
-import 'attraction.dart';
+import '../models/attraction.dart';
 
 class AttractionList extends GetxController {
   static AttractionList get instance => Get.find();

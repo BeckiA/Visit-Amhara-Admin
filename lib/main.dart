@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/attraction', page: () => const AttractionDisplay()),
         GetPage(
           name: '/users',
-          page: () => const Users(),
+          page: () => Users(),
         ),
         GetPage(
           name: '/edit-attraction',

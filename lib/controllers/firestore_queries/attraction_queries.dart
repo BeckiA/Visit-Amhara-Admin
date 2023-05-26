@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:visit_amhara_admin_app/controllers/attraction.dart';
+import 'package:visit_amhara_admin_app/models/attraction.dart';
 
 class AttractionQuery extends GetxController {
   static AttractionQuery get instance => Get.find();

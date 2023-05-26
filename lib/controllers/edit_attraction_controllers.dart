@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
 
-import 'attraction.dart';
+import '../models/attraction.dart';
 
 class EditAttractionController extends GetxController {
   static EditAttractionController get instance => Get.find();

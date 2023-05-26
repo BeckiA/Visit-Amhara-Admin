@@ -12,7 +12,7 @@ import 'package:visit_amhara_admin_app/controllers/atrractions_list.dart';
 import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
 import 'package:visit_amhara_admin_app/screens/view_attractions.dart';
 
-import '../controllers/attraction.dart';
+import '../models/attraction.dart';
 import '../controllers/edit_attraction_controllers.dart';
 import 'attraction_display.dart';
 

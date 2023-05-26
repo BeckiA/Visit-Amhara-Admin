@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:visit_amhara_admin_app/controllers/attraction.dart';
+import 'package:visit_amhara_admin_app/models/attraction.dart';
 import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
 
 import '../constants/colors.dart';
@@ -23,7 +23,7 @@ class _ViewAttractionState extends State<ViewAttraction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Attraction Items"),
+        title: const Text("Visit Amhara Attractions"),
       ),
       body: FutureBuilder<List<Attraction>>(
         future: attractionQuery.allAttractionData(),

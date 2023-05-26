@@ -28,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final pages = [
     Dashboard(),
     const AttractionDisplay(),
-    const Users(),
+    Users(),
     const SettingsScreen(),
   ];
 

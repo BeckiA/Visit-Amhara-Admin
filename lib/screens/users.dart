@@ -3,11 +3,12 @@ import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:visit_amhara_admin_app/models/user_model.dart';
 
+import '../controllers/user_controller.dart';
 import '../controllers/user_info_controller.dart';
 
 class Users extends StatelessWidget {
   Users({super.key});
-  final controller = Get.put(UserInfoController());
+  final controller = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,10 +17,10 @@ class Users extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: FutureBuilder<List<UserModel>>(
-              future: controller.allUser(),
+              future: controller.getUserData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  print("This is workking");
+                  // print("This is workking");
                   if (snapshot.hasData) {
                     print("I'm the body and I'm excuting");
                     // UserModel userData = snapshot.hasData as UserModel;

@@ -19,10 +19,11 @@ class UserModel {
     final data = document.data();
 
     return UserModel(
-        id: document.id,
-        password: data!["Password"],
-        fullName: data["FullName"],
-        email: data["Email"],
-        phoneNo: data["Phone"]);
+      id: document.id,
+      password: data?["Password"] ?? "",
+      fullName: data?["FullName"] ?? "",
+      email: data?["Email"] ?? "",
+      phoneNo: data?["Phone"] ?? "",
+    );
   }
 }

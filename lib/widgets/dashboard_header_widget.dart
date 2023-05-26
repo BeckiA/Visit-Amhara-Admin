@@ -27,7 +27,7 @@ class DashboardHeader extends StatelessWidget {
                         width: 15.0,
                       ),
                       Text(
-                        "Articles",
+                        "Attractions",
                         style: TextStyle(
                           fontSize: 26.0,
                           fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class DashboardHeader extends StatelessWidget {
                     height: 20.0,
                   ),
                   const Text(
-                    "6 Articles",
+                    "6 Attractions",
                     style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
@@ -124,7 +124,7 @@ class DashboardHeader extends StatelessWidget {
                     height: 20.0,
                   ),
                   const Text(
-                    "3.2M Subscribers",
+                    "32 Subscribers",
                     style: TextStyle(
                       fontSize: 36,
                       color: Colors.amber,
@@ -146,15 +146,15 @@ class DashboardHeader extends StatelessWidget {
                   Row(
                     children: const [
                       Icon(
-                        Icons.monetization_on_outlined,
+                        Icons.favorite,
                         size: 26.0,
                         color: Colors.green,
                       ),
                       SizedBox(
-                        width: 15.0,
+                        width: 5.0,
                       ),
                       Text(
-                        "Revenue",
+                        "Liked Attractions",
                         style: TextStyle(
                           fontSize: 26.0,
                           color: Colors.green,
@@ -167,7 +167,7 @@ class DashboardHeader extends StatelessWidget {
                     height: 20.0,
                   ),
                   const Text(
-                    "2.300 \$",
+                    "23",
                     style: TextStyle(
                       fontSize: 36,
                       color: Colors.green,

@@ -16,7 +16,7 @@ class DashboardTable extends StatelessWidget {
                 MaterialStateProperty.resolveWith((states) => Colors.black54),
             columns: const [
               DataColumn(label: Text("ID")),
-              DataColumn(label: Text("Article Title")),
+              DataColumn(label: Text("Attraction Title")),
               DataColumn(label: Text("Creation Date")),
               DataColumn(label: Text("Views")),
               DataColumn(label: Text("Comments")),

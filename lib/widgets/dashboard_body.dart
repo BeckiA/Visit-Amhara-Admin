@@ -16,7 +16,7 @@ class DashboardBody extends StatelessWidget {
             Column(
               children: const [
                 Text(
-                  "6 Articles",
+                  "6 Attractions",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 28.0,
@@ -26,7 +26,7 @@ class DashboardBody extends StatelessWidget {
                   height: 10.0,
                 ),
                 Text(
-                  "3 new Articles",
+                  "3 new Attractions",
                   style: TextStyle(
                       color: Colors.grey,
                       fontSize: 18.0,
@@ -38,7 +38,7 @@ class DashboardBody extends StatelessWidget {
               width: 300.0,
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: "Type Article Title",
+                  hintText: "Type Attraction Title",
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(

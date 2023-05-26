@@ -14,6 +14,7 @@ class AttractionDisplay extends StatelessWidget {
     return Center(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         GestureDetector(
           onTap: () {
@@ -28,7 +29,7 @@ class AttractionDisplay extends StatelessWidget {
                 color: VALTextColor,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
-              child: Row(
+              child: Column(
                 children: [
                   const Icon(
                     LineAwesomeIcons.plus_circle,
@@ -56,7 +57,7 @@ class AttractionDisplay extends StatelessWidget {
                 color: VALTextColor,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
-              child: Row(
+              child: Column(
                 children: [
                   const Icon(
                     LineAwesomeIcons.eye,

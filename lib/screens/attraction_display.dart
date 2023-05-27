@@ -23,17 +23,21 @@ class AttractionDisplay extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 250,
+              height: 200,
               width: 400,
               decoration: const BoxDecoration(
-                color: VALTextColor,
+                color: Colors.blue,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
                     LineAwesomeIcons.plus_circle,
                     size: 80,
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Text(
                     "ADD ATTRACTIONS",
@@ -51,13 +55,14 @@ class AttractionDisplay extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 250,
+              height: 200,
               width: 400,
               decoration: const BoxDecoration(
-                color: VALTextColor,
+                color: Colors.blue,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
                     LineAwesomeIcons.eye,

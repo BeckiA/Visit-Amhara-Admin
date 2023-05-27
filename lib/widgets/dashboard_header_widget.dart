@@ -151,10 +151,12 @@ class DashboardHeader extends StatelessWidget {
                         color: Colors.green,
                       ),
                       SizedBox(
-                        width: 5.0,
+                        width: 15.0,
                       ),
                       Text(
-                        "Liked Attractions",
+                        "Liked\nAttractions",
+                        softWrap: true,
+                        maxLines: 2,
                         style: TextStyle(
                           fontSize: 26.0,
                           color: Colors.green,
@@ -167,7 +169,7 @@ class DashboardHeader extends StatelessWidget {
                     height: 20.0,
                   ),
                   const Text(
-                    "23",
+                    "23 Attractions",
                     style: TextStyle(
                       fontSize: 36,
                       color: Colors.green,

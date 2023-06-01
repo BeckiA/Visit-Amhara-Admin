@@ -29,7 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Dashboard(),
     const AttractionDisplay(),
     Users(),
-    const SettingsScreen(),
+    UserProfileScreen(),
   ];
 
   @override
@@ -86,11 +86,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
       //let's add the floating action button
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: VAPrimaryColor,
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }

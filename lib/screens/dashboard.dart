@@ -47,7 +47,7 @@ class Dashboard extends GetView<DashboardController> {
               height: 20.0,
             ),
             //Now let's start with the dashboard main rapports
-            const DashboardHeader(),
+            DashboardHeader(),
             //Now let's set the article section
             const SizedBox(
               height: 30.0,

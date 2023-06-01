@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:visit_amhara_admin_app/screens/edit_attractions.dart';
+import 'package:visit_amhara_admin_app/screens/login/login_screen.dart';
 import 'package:visit_amhara_admin_app/screens/upload_attractions.dart';
 import 'firebase_options.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -32,12 +33,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const DashboardScreen(),
+      home: const LoginScreen(),
       theme: VAAppTheme.lightTheme,
       darkTheme: VAAppTheme.darkTheme,
       themeMode: ThemeMode.system,
       getPages: [
-        GetPage(name: '/', page: () => const DashboardScreen()),
+        GetPage(name: '/', page: () => const LoginScreen()),
         GetPage(name: '/attraction', page: () => const AttractionDisplay()),
         GetPage(
           name: '/users',
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/settings',
-          page: () => const SettingsScreen(),
+          page: () => UserProfileScreen(),
         ),
       ],
     );

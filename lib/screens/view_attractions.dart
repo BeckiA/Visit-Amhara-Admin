@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:visit_amhara_admin_app/models/attraction.dart';
 import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
+import 'package:visit_amhara_admin_app/screens/upload_attractions.dart';
 
 import '../constants/colors.dart';
 import '../controllers/edit_attraction_controllers.dart';
+import 'attraction_display.dart';
 
 class ViewAttraction extends StatefulWidget {
   @override
@@ -24,6 +26,19 @@ class _ViewAttractionState extends State<ViewAttraction> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Visit Amhara Attractions"),
+        actions: [
+          TextButton.icon(
+            onPressed: () => Get.to(UploadAttractions()),
+            icon: Icon(Icons.upload),
+            label: Text("Upload Attractions"),
+          ),
+          SizedBox(width: 10),
+          TextButton.icon(
+            onPressed: () => Get.to(AttractionDisplay()),
+            icon: Icon(Icons.menu),
+            label: Text("Main Menu"),
+          ),
+        ],
       ),
       body: FutureBuilder<List<Attraction>>(
         future: attractionQuery.allAttractionData(),

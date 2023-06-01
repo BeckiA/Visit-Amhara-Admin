@@ -17,13 +17,13 @@ class AttractionQuery extends GetxController {
           () => Get.snackbar("Success", "Attraction site created successfully",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green.withOpacity(0.1),
-              colorText: Colors.green),
+              colorText: Colors.white),
         )
         .catchError((error, StackTrace) {
       Get.snackbar("Error", "Something went wrong. Try again",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.redAccent.withOpacity(0.1),
-          colorText: Colors.red);
+          colorText: Colors.white);
       print(error.toString());
     });
   }
@@ -65,13 +65,13 @@ class AttractionQuery extends GetxController {
           () => Get.snackbar("Success", "Attraction site updated successfully",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green.withOpacity(0.1),
-              colorText: Colors.green),
+              colorText: Colors.white),
         )
         .catchError((error, StackTrace) {
       Get.snackbar("Error", "Something went wrong. Try again",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.redAccent.withOpacity(0.1),
-          colorText: Colors.red);
+          colorText: Colors.white);
       print(error.toString());
     });
   }
@@ -88,13 +88,13 @@ class AttractionQuery extends GetxController {
           () => Get.snackbar("Success", "Attraction site deleted successfully",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green.withOpacity(0.1),
-              colorText: Colors.green),
+              colorText: Colors.white),
         )
         .catchError((error, StackTrace) {
       Get.snackbar("Error", "Something went wrong. Try again",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.redAccent.withOpacity(0.1),
-          colorText: Colors.red);
+          colorText: Colors.white);
       print(error.toString());
     });
   }

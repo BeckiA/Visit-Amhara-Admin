@@ -12,6 +12,7 @@ import 'package:visit_amhara_admin_app/controllers/atrractions_list.dart';
 import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
 import 'package:visit_amhara_admin_app/screens/view_attractions.dart';
 
+import '../constants/image_strings.dart';
 import '../models/attraction.dart';
 import '../controllers/edit_attraction_controllers.dart';
 import 'attraction_display.dart';
@@ -128,9 +129,16 @@ class _UploadAttractionsState extends State<UploadAttractions> {
         appBar: AppBar(
           title: const Text('Upload Attraction Sites'),
           actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: _submitForm,
+            TextButton.icon(
+              onPressed: () => Get.to(ViewAttraction()),
+              icon: Icon(Icons.remove_red_eye),
+              label: Text("View Attractions"),
+            ),
+            SizedBox(width: 10),
+            TextButton.icon(
+              onPressed: () => Get.to(AttractionDisplay()),
+              icon: Icon(Icons.menu),
+              label: Text("Main Menu"),
             ),
           ],
         ),
@@ -231,7 +239,7 @@ class _UploadAttractionsState extends State<UploadAttractions> {
                                           fit: BoxFit.cover,
                                         )
                                       : Image.asset(
-                                          "lib/assets/images/no_image.jpg",
+                                          VANoImage,
                                           fit: BoxFit.cover,
                                         )),
                               Expanded(

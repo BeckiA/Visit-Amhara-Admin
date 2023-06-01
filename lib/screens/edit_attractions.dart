@@ -10,6 +10,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:visit_amhara_admin_app/controllers/atrractions_list.dart';
 import 'package:visit_amhara_admin_app/controllers/firestore_queries/attraction_queries.dart';
+import 'package:visit_amhara_admin_app/screens/upload_attractions.dart';
 import 'package:visit_amhara_admin_app/screens/view_attractions.dart';
 
 import '../models/attraction.dart';
@@ -64,6 +65,18 @@ class _EditAttractionsState extends State<EditAttractions> {
 
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          TextButton.icon(
+            onPressed: () => Get.to(UploadAttractions()),
+            icon: Icon(Icons.upload),
+            label: Text("Upload Attractions"),
+          ),
+          TextButton.icon(
+            onPressed: () => Get.to(ViewAttraction()),
+            icon: Icon(Icons.remove_red_eye),
+            label: Text("View Attractions"),
+          ),
+        ],
         leading: IconButton(
           icon: const Icon(LineAwesomeIcons.arrow_left),
           onPressed: () => Get.back(),

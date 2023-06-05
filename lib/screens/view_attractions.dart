@@ -23,21 +23,34 @@ class _ViewAttractionState extends State<ViewAttraction> {
 
   @override
   Widget build(BuildContext context) {
+    Color getButtonColorBasedOnBrightness(BuildContext context) {
+      final brightness = MediaQuery.of(context).platformBrightness;
+      return brightness == Brightness.dark ? Colors.blue : Colors.white;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Visit Amhara Attractions"),
         actions: [
           TextButton.icon(
-            onPressed: () => Get.to(UploadAttractions()),
-            icon: Icon(Icons.upload),
-            label: Text("Upload Attractions"),
-          ),
+              onPressed: () => Get.to(UploadAttractions()),
+              icon: Icon(Icons.upload),
+              label: Text("Upload Attractions"),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (states) => getButtonColorBasedOnBrightness(context),
+                ),
+              )),
           SizedBox(width: 10),
           TextButton.icon(
-            onPressed: () => Get.to(AttractionDisplay()),
-            icon: Icon(Icons.menu),
-            label: Text("Main Menu"),
-          ),
+              onPressed: () => Get.to(AttractionDisplay()),
+              icon: Icon(Icons.menu),
+              label: Text("Main Menu"),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (states) => getButtonColorBasedOnBrightness(context),
+                ),
+              )),
         ],
       ),
       body: FutureBuilder<List<Attraction>>(

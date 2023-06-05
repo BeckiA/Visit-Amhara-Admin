@@ -125,21 +125,34 @@ class _UploadAttractionsState extends State<UploadAttractions> {
 
   @override
   Widget build(BuildContext context) {
+    Color getButtonColorBasedOnBrightness(BuildContext context) {
+      final brightness = MediaQuery.of(context).platformBrightness;
+      return brightness == Brightness.dark ? Colors.blue : Colors.white;
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Upload Attraction Sites'),
           actions: <Widget>[
             TextButton.icon(
-              onPressed: () => Get.to(ViewAttraction()),
-              icon: Icon(Icons.remove_red_eye),
-              label: Text("View Attractions"),
-            ),
+                onPressed: () => Get.to(ViewAttraction()),
+                icon: Icon(Icons.remove_red_eye),
+                label: Text("View Attractions"),
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (states) => getButtonColorBasedOnBrightness(context),
+                  ),
+                )),
             SizedBox(width: 10),
             TextButton.icon(
-              onPressed: () => Get.to(AttractionDisplay()),
-              icon: Icon(Icons.menu),
-              label: Text("Main Menu"),
-            ),
+                onPressed: () => Get.to(AttractionDisplay()),
+                icon: Icon(Icons.menu),
+                label: Text("Main Menu"),
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (states) => getButtonColorBasedOnBrightness(context),
+                  ),
+                )),
           ],
         ),
         body: Padding(

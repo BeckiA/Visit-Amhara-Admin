@@ -59,6 +59,11 @@ class _EditAttractionsState extends State<EditAttractions> {
 
   @override
   Widget build(BuildContext context) {
+    Color getButtonColorBasedOnBrightness(BuildContext context) {
+      final brightness = MediaQuery.of(context).platformBrightness;
+      return brightness == Brightness.dark ? Colors.blue : Colors.white;
+    }
+
     final args = Get.arguments;
     final id = args['id'] as String;
     print(id);
@@ -67,15 +72,23 @@ class _EditAttractionsState extends State<EditAttractions> {
       appBar: AppBar(
         actions: [
           TextButton.icon(
-            onPressed: () => Get.to(UploadAttractions()),
-            icon: Icon(Icons.upload),
-            label: Text("Upload Attractions"),
-          ),
+              onPressed: () => Get.to(UploadAttractions()),
+              icon: Icon(Icons.upload),
+              label: Text("Upload Attractions"),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (states) => getButtonColorBasedOnBrightness(context),
+                ),
+              )),
           TextButton.icon(
-            onPressed: () => Get.to(ViewAttraction()),
-            icon: Icon(Icons.remove_red_eye),
-            label: Text("View Attractions"),
-          ),
+              onPressed: () => Get.to(ViewAttraction()),
+              icon: Icon(Icons.remove_red_eye),
+              label: Text("View Attractions"),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (states) => getButtonColorBasedOnBrightness(context),
+                ),
+              )),
         ],
         leading: IconButton(
           icon: const Icon(LineAwesomeIcons.arrow_left),
